@@ -4,10 +4,13 @@ project (iceball)
 set(CMAKE_SOURCE_DIR src)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	add_definitions(-fno-strict-aliasing -Wall -Wextra -g) # keep debugging symbols even in Release builds
 endif ()
+
+add_definitions(-fcolor-diagnostics)
 
 include_directories(include)
 if (WIN32)
@@ -58,7 +61,7 @@ set(GL_FILES
 	src/gl/glad.c
 	src/gl/render.c
 	src/gl/render_img.c
-)
+	src/gl/draw.c)
 
 source_group(gl FILES ${GL_FILES})
 source_group(lua FILES ${LUA_FILES})

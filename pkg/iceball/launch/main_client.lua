@@ -127,19 +127,19 @@ local ch = font.iheight
 local text_offset = ch+ch --cha cha cha! \o/
 
 local img_row_bkg_width = screen_width - 2*text_offset
-local img_row_bkg = common.img_new(img_row_bkg_width, ch + 2)
-common.img_fill(img_row_bkg, 0x99111111)
-local img_row_official_bkg = common.img_new(img_row_bkg_width, ch + 2)
-common.img_fill(img_row_official_bkg, 0x99555500)
-local img_row_bkg_transparent = common.img_new(img_row_bkg_width, ch + 2)
-common.img_fill(img_row_bkg_transparent, 0x22111111)
+--local img_row_bkg = common.img_new(img_row_bkg_width, ch + 2)
+--common.img_fill(img_row_bkg, 0x99111111)
+--local img_row_official_bkg = common.img_new(img_row_bkg_width, ch + 2)
+--common.img_fill(img_row_official_bkg, 0x99555500)
+--local img_row_bkg_transparent = common.img_new(img_row_bkg_width, ch + 2)
+--common.img_fill(img_row_bkg_transparent, 0x22111111)
 
 local img_button_bkg_width = 120
 local img_button_bkg_height = ch + 2
-local img_button_bkg = common.img_new(img_button_bkg_width, img_button_bkg_height)
-common.img_fill(img_button_bkg, 0x99111111)
-local img_button_bkg_transparent = common.img_new(img_button_bkg_width, img_button_bkg_height)
-common.img_fill(img_button_bkg_transparent, 0x22111111)
+--local img_button_bkg = common.img_new(img_button_bkg_width, img_button_bkg_height)
+--common.img_fill(img_button_bkg, 0x99111111)
+--local img_button_bkg_transparent = common.img_new(img_button_bkg_width, img_button_bkg_height)
+--common.img_fill(img_button_bkg_transparent, 0x22111111)
 
 local img_splash = common.img_load("pkg/iceball/gfx/splash_logo.png", "png")
 local img_splash_width, img_splash_height
@@ -172,7 +172,9 @@ function client.hook_render()
 	local splash_x, splash_y
 	splash_x = (screen_width/2) - (img_splash_width_scaled/2)
 	splash_y = (screen_height/(2/splashtweenprogress_y)) - img_splash_height_scaled
-	client.img_blit(img_splash, splash_x, splash_y, img_splash_width_scaled, img_splash_height_scaled, 0, 0, 0xFFFFFFFF, splashtweenprogress_scale, splashtweenprogress_scale)
+	client.draw_texture(img_splash, splash_x, splash_y, img_splash_width_scaled, img_splash_height_scaled, 0, 0, 1, 1, 0xFFFFFFFF)
+	--client.draw_flush()
+	--client.img_blit(img_splash, splash_x, splash_y, img_splash_width_scaled, img_splash_height_scaled, 0, 0, 0xFFFFFFFF, splashtweenprogress_scale, splashtweenprogress_scale)
 	--splash sequence end
 	
 	if splashtweenprogress_scale <= 0.5 then --don't draw the rest until the splash finishes
@@ -217,7 +219,7 @@ function client.hook_render()
 			version_string,
 			version_colour
 		)
-		
+
 		-- Draw server list
 		local empty_start = 10
 		for i=1,9 do
@@ -231,9 +233,11 @@ function client.hook_render()
 			
 			if sv.official then
 				-- TODO: Maybe make this a column or something? Could have columns for official and favourites
-				client.img_blit(img_row_official_bkg, text_offset-2, (ch+4)*(8+i-1) - 1)
+				client.draw_quad(text_offset-2, (ch+4)*(8+i-1) - 1, img_row_bkg_width, ch + 2, 0x99111111)
+				--client.img_blit(img_row_official_bkg, text_offset-2, (ch+4)*(8+i-1) - 1)
 			else
-				client.img_blit(img_row_bkg, text_offset-2, (ch+4)*(8+i-1) - 1)
+				client.draw_quad(text_offset-2, (ch+4)*(8+i-1) - 1, img_row_bkg_width, ch + 2, 0x99555500)
+				--client.img_blit(img_row_bkg, text_offset-2, (ch+4)*(8+i-1) - 1)
 			end
 		
 			font.render(text_offset, (ch+4)*(8+i-1), sid..": "..sv.name
@@ -244,7 +248,8 @@ function client.hook_render()
 		end
 --		common.img_fill(img_row_bkg, 0x22111111)
 		for i=empty_start,9 do
-			client.img_blit(img_row_bkg_transparent, text_offset-2, (ch+4)*(8+i-1) - 1)
+			client.draw_quad(text_offset - 2, (ch+4)*(8+i-1) - 1, img_row_bkg_width, ch + 2, 0x22111111)
+			--client.img_blit(img_row_bkg_transparent, text_offset-2, (ch+4)*(8+i-1) - 1)
 		end
 		--common.img_fill(img_row_bkg, 0x99111111)
 		
@@ -253,9 +258,11 @@ function client.hook_render()
 		local button_pos_y = (ch+4)*17 - 1
 		local label_offset = (img_button_bkg_width / 2) - (font.string_width("<") / 2)
 		if page_next_active then
-			client.img_blit(img_button_bkg, button_pos_x, button_pos_y)
+			client.draw_quad(button_pos_x, button_pos_y, w, h, 0x99111111)
+			--client.img_blit(img_button_bkg, button_pos_x, button_pos_y)
 		else
-			client.img_blit(img_button_bkg_transparent, button_pos_x, button_pos_y)
+			client.draw_quad(button_pos_x, button_pos_y, w, h, 0x22111111)
+			--client.img_blit(img_button_bkg_transparent, button_pos_x, button_pos_y)
 		end
 		font.render(
 			button_pos_x + label_offset,
@@ -265,9 +272,11 @@ function client.hook_render()
 		)
 		button_pos_x = button_pos_x - 2 - img_button_bkg_width
 		if page_prev_active then
-			client.img_blit(img_button_bkg, button_pos_x, button_pos_y)
+			client.draw_quad(button_pos_x, button_pos_y, img_button_bkg_width, img_button_bkg_height, 0x99111111)
+			--client.img_blit(img_button_bkg, button_pos_x, button_pos_y)
 		else
-			client.img_blit(img_button_bkg_transparent, button_pos_x, button_pos_y)
+			client.draw_quad(button_pos_x, button_pos_y, img_button_bkg_width, img_button_bkg_height, 0x22111111)
+			--client.img_blit(img_button_bkg_transparent, button_pos_x, button_pos_y)
 		end
 		font.render(
 			button_pos_x + label_offset,
@@ -278,6 +287,7 @@ function client.hook_render()
 	end
 	
 	end
+	client.draw_flush()
 end
 
 server_refresh = 0

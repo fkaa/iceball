@@ -56,11 +56,18 @@ function font_mono_new(settings)
 			offs = offs or 0
 			offs = offs * w
 
-			if destimg then
+			local u = offs
+			local v = 0
+			local s = u + w
+			local t = h
+
+			client.draw_texture(this.img, x, y, w, h, u, v, s, t, c)
+			--client.draw_flush()
+			--[[if destimg then
 				client.img_blit_to(destimg, this.img, x, y, w, h, offs, 0, c)
 			else
 				client.img_blit(this.img, x, y, w, h, offs, 0, c)
-			end
+			end]]--
 
 			x = x + w
 		end

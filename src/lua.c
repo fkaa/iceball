@@ -199,6 +199,7 @@ int icelua_fn_client_mk_set_title(lua_State *L)
 #include "lua_util.h"
 #include "lua_wav.h"
 #include "lua_va.h"
+#include "lua_draw.h"
 
 // common functions
 
@@ -211,6 +212,9 @@ struct icelua_entry icelua_client[] = {
 	{icelua_fn_client_mk_set_title, "mk_set_title"},
 	{icelua_fn_client_mk_sys_execv, "mk_sys_execv"},
 
+	{icelua_fn_client_draw_flush, "draw_flush"},
+	{icelua_fn_client_draw_texture, "draw_texture"},
+	{icelua_fn_client_draw_quad, "draw_quad"},
 	{icelua_fn_client_text_input_start, "text_input_start"},
 	{icelua_fn_client_text_input_stop, "text_input_stop"},
 	{icelua_fn_client_mouse_lock_set, "mouse_lock_set"},

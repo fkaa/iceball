@@ -705,6 +705,13 @@ void render_free_visible_chunks(map_t *map);
 int render_map_visible_chunks_count_dirty(map_t *map);
 #endif
 
+#ifndef DEDI
+void draw_blank_quad(float x, float y, float width, float height, uint32_t color);
+void draw_quad(float x, float y, float width, float height, float s, float t,
+	float u, float v, GLuint texture, uint32_t color);
+void draw_flush();
+#endif
+
 // png.c
 img_t *img_parse_png(int len, const char *data, lua_State *L);
 img_t *img_load_png(const char *fname, lua_State *L);
